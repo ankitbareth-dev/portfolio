@@ -1,1 +1,131 @@
 @import "tailwindcss";
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+  background: hsl(var(--bg));
+  color: hsl(var(--text-primary));
+  transition:
+    background 0.3s ease,
+    color 0.3s ease;
+}
+
+/* ================================
+   LIGHT MODE (DEFAULT)
+================================ */
+:root {
+  /* Backgrounds */
+  --bg: 0 0% 100%;
+  --bg-secondary: 220 20% 96%;
+  --surface: 0 0% 100%;
+  --border: 220 15% 90%;
+
+  /* Text */
+  --text-primary: 220 30% 10%;
+  --text-secondary: 220 15% 40%;
+  --text-muted: 220 10% 60%;
+
+  /* Brand */
+  --primary: 250 95% 60%;
+  --primary-foreground: 0 0% 100%;
+
+  --accent: 230 90% 60%;
+  --accent-foreground: 0 0% 100%;
+
+  /* Radius */
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 40px;
+
+  /* Shadows */
+  --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.08);
+  --shadow-glow: 0 0 60px rgba(99, 102, 241, 0.35);
+
+  /* Gradients */
+  --gradient-primary: linear-gradient(
+    135deg,
+    hsl(var(--primary)) 0%,
+    hsl(var(--accent)) 100%
+  );
+}
+
+/* ================================
+   DARK MODE
+================================ */
+.dark {
+  /* Backgrounds */
+  --bg: 222 47% 6%;
+  --bg-secondary: 222 40% 10%;
+  --surface: 222 35% 12%;
+  --border: 222 25% 20%;
+
+  /* Text */
+  --text-primary: 0 0% 95%;
+  --text-secondary: 220 15% 70%;
+  --text-muted: 220 10% 55%;
+
+  /* Brand (slightly brighter for glow) */
+  --primary: 255 92% 70%;
+  --accent: 230 95% 65%;
+
+  /* Stronger glow */
+  --shadow-glow: 0 0 80px rgba(139, 92, 246, 0.5);
+}
+
+/* ================================
+   UTILITY CLASSES
+================================ */
+
+.bg-surface {
+  background: hsl(var(--surface));
+}
+
+.text-secondary {
+  color: hsl(var(--text-secondary));
+}
+
+.text-muted {
+  color: hsl(var(--text-muted));
+}
+
+.border-default {
+  border: 1px solid hsl(var(--border));
+}
+
+.shadow-soft {
+  box-shadow: var(--shadow-soft);
+}
+
+.shadow-glow {
+  box-shadow: var(--shadow-glow);
+}
+
+.btn-gradient {
+  background: var(--gradient-primary);
+  color: hsl(var(--primary-foreground));
+  border-radius: var(--radius-lg);
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-gradient:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-glow);
+}
