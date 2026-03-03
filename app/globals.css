@@ -11,7 +11,7 @@
   --color-foreground: #ffffff;
   --color-muted: #a3a3a3;
 
-  --color-primary: #8b5cf6;
+  --color-primary: #7275fc;
   --color-primary-foreground: #ffffff;
 
   --color-accent: #3b82f6;
@@ -22,10 +22,6 @@
 
 @layer base {
   body {
-    @apply bg-background text-foreground font-body antialiased;
+    @apply bg-[#17171d] text-foreground font-body antialiased;
   }
-}
-
-@utility glow-blue {
-  box-shadow: 0 0 30px theme(colors.accent / 30%);
 }
