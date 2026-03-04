@@ -30,7 +30,7 @@ const PILLARS_CONFIG = [
 ];
 
 const ICONS_CONFIG: { icon: IconType; pillarIndex: number; top: string }[] = [
-  { icon: SiReact, pillarIndex: 1, top: "20%" },
+  { icon: SiReact, pillarIndex: 1, top: "15%" },
   { icon: SiAngular, pillarIndex: 1, top: "50%" },
   { icon: SiMui, pillarIndex: 2, top: "35%" },
   { icon: SiNodedotjs, pillarIndex: 2, top: "65%" },
@@ -49,15 +49,9 @@ const ICONS_CONFIG: { icon: IconType; pillarIndex: number; top: string }[] = [
 
 const STYLES = {
   // Arc Colors
-  // Gradient creates a "Rim Light" strictly on the top edge using Primary Color (#7275fc)
-  ARC_CORE_BG: `linear-gradient(180deg, 
-    #7275fc 0%, 
-    rgba(114, 117, 252, 0.6) 2%, 
-    rgba(30, 33, 55, 1) 6%, 
-    rgba(30, 33, 55, 1) 100%)`,
-
-  // Glow concentrated on the rim (0 offset, tight blur)
-  ARC_GLOW_FILTER: "drop-shadow(0 0 8px rgba(114, 117, 252, 0.9))",
+  ARC_CORE_BG: "rgba(30, 33, 55, 1)",
+  ARC_RIM_BORDER: "3px solid rgba(114, 117, 252, 0.95)",
+  ARC_RIM_SHADOW: "0 0 15px rgba(114, 117, 252, 0.4)",
 
   // Pillar Colors
   PILLAR_GRADIENT: `linear-gradient(0deg, 
@@ -68,9 +62,6 @@ const STYLES = {
   ICON_BG:
     "radial-gradient(circle at 50% 30%, rgba(255,255,255,0.08) 0%, rgba(10, 10, 20, 0.6) 100%)",
   ICON_SHADOW: "0 10px 30px rgba(0,0,0,0.5)",
-
-  // The Mask that cuts the bottom curve
-  PILLAR_CONTAINER_MASK: `radial-gradient(ellipse 100% 30% at 50% 100%, transparent 0%, transparent 70%, black 71%)`,
 };
 
 const ARC_CONFIG = {
@@ -89,20 +80,48 @@ export default function VerticalTechBars() {
     <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
       {/* --- Layer 1: Arc Container --- */}
       <div
-        className="absolute left-1/2 z-10 -translate-x-1/2"
+        className="absolute left-1/2 z-50 -translate-x-1/2"
         style={{
           width: ARC_CONFIG.WIDTH,
           height: ARC_CONFIG.HEIGHT,
           bottom: ARC_CONFIG.BOTTOM_OFFSET,
         }}
       >
-        {/* Core Shape with Glow */}
+        {/* Core Shape (Background only) */}
         <div
           className="absolute inset-0"
           style={{
             background: STYLES.ARC_CORE_BG,
             clipPath: `ellipse(32% ${ARC_CONFIG.BEND} at 50% 100%)`,
-            filter: STYLES.ARC_GLOW_FILTER,
+          }}
+        />
+
+        {/* Glow Layer (White Top -> Primary Color -> Transparent) */}
+        <div
+          className="absolute inset-0"
+          style={{
+            // 1. Same shape and position as the arc
+            clipPath: `ellipse(32% ${ARC_CONFIG.BEND} at 50% 100%)`,
+
+            // 2. Vertical Gradient:
+            // Starts at 0% with White (Hot Core)
+            // Transitions to Primary Color (#7275fc) by 20%
+            // Fades to Transparent by 80%
+            background:
+              "linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(114, 117, 252, 1) 20%, rgba(114, 117, 252, 0) 80%)",
+
+            // 3. Mask: Keeps center bright, fades edges
+            WebkitMaskImage:
+              "radial-gradient(ellipse 75% 100% at 50% 0%, black 0%, transparent 100%)",
+            maskImage:
+              "radial-gradient(ellipse 75% 100% at 50% 0%, black 0%, transparent 100%)",
+
+            // 4. Reduced blur slightly to make the white "core" more distinct
+            filter: "blur(12px)",
+
+            // 5. Intensity: Screen blend mode for glow
+            opacity: 1,
+            mixBlendMode: "screen",
           }}
         />
       </div>
@@ -111,8 +130,8 @@ export default function VerticalTechBars() {
       <div
         className="absolute inset-0 z-20"
         style={{
-          maskImage: STYLES.PILLAR_CONTAINER_MASK,
-          WebkitMaskImage: STYLES.PILLAR_CONTAINER_MASK,
+          maskImage: `radial-gradient(ellipse 100% 30% at 50% 100%, transparent 0%, transparent 70%, black 71%)`,
+          WebkitMaskImage: `radial-gradient(ellipse 100% 30% at 50% 100%, transparent 0%, transparent 70%, black 71%)`,
         }}
       >
         {PILLARS_CONFIG.map((pillar, index) => {
