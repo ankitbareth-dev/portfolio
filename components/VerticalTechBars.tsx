@@ -14,77 +14,49 @@ import {
 import type { IconType } from "react-icons";
 
 export default function VerticalTechBars() {
-  const bars = [
-    "left-[12%]",
-    "left-[26%]",
-    "left-[40%]",
-    "left-[54%]",
-    "left-[68%]",
-    "left-[82%]",
+  // 9 Pillars evenly distributed
+  const pillarPositions = [
+    "left-[5%]", // 1 (Edge - Fades out)
+    "left-[16%]", // 2 (Icons)
+    "left-[27%]", // 3 (Icons)
+    "left-[38%]", // 4 (Icons)
+    "left-[50%]", // 5 (Center - Empty)
+    "left-[62%]", // 6 (Icons)
+    "left-[73%]", // 7 (Icons)
+    "left-[84%]", // 8 (Icons)
+    "left-[95%]", // 9 (Edge - Fades out)
   ];
 
-  const badges: { icon: IconType; className: string }[] = [
-    { icon: SiReact, className: "left-[15%] top-[28%]" },
-    { icon: SiAngular, className: "left-[15%] top-[50%]" },
-    { icon: SiMui, className: "left-[26%] top-[44%]" },
-    { icon: SiNodedotjs, className: "left-[26%] top-[61%]" },
-    { icon: SiCplusplus, className: "left-[37%] top-[53%]" },
-    { icon: SiGit, className: "left-[48%] top-[58%]" },
-    { icon: SiTailwindcss, className: "left-[59%] top-[53%]" },
-    { icon: SiVuedotjs, className: "left-[80%] top-[28%]" },
-    { icon: SiSass, className: "left-[70%] top-[44%]" },
-    { icon: SiJavascript, className: "left-[70%] top-[61%]" },
-    { icon: SiPython, className: "left-[80%] top-[50%]" },
-  ];
+  const iconPlacements: { icon: IconType; pillarIndex: number; top: string }[] =
+    [
+      // Left Side Group
+      { icon: SiReact, pillarIndex: 1, top: "20%" },
+      { icon: SiAngular, pillarIndex: 1, top: "50%" },
+      { icon: SiMui, pillarIndex: 2, top: "35%" },
+      { icon: SiNodedotjs, pillarIndex: 2, top: "65%" },
+      { icon: SiCplusplus, pillarIndex: 3, top: "40%" },
+
+      // Right Side Group
+      { icon: SiGit, pillarIndex: 5, top: "40%" },
+      { icon: SiTailwindcss, pillarIndex: 6, top: "35%" },
+      { icon: SiVuedotjs, pillarIndex: 6, top: "65%" },
+      { icon: SiSass, pillarIndex: 7, top: "20%" },
+      { icon: SiJavascript, pillarIndex: 7, top: "50%" },
+      { icon: SiPython, pillarIndex: 7, top: "65%" },
+    ];
 
   return (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden">
-      {/* Vertical Fade Top/Bottom */}
-      <div
-        className="absolute inset-0"
-        style={{
-          background:
-            "linear-gradient(180deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0) 20%, rgba(0, 0, 0, 0.7) 100%)",
-        }}
-      />
-
-      {/* Tech Bars */}
-      {bars.map((position, index) => (
+    <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+      {/* 1. Arc Layer (Back) - z-10 */}
+      <div className="absolute -bottom-[19%] md:-bottom-[28%] left-1/2 z-10 h-[48%] md:h-[62%] w-[170%] md:w-[150%] -translate-x-1/2 overflow-hidden">
+        {/* Core */}
         <div
-          key={position}
-          className={`absolute bottom-0 w-[14%] md:w-[9.4%] -translate-x-1/2 ${position} ${index % 2 ? "h-[80%]" : "h-[90%]"}`}
-        >
-          <div
-            className="h-full w-full rounded-t-[999px]"
-            style={{
-              background: `
-                radial-gradient(58% 105% at 50% 100%, rgba(100, 107, 255, 0.2) 0%, rgba(100, 107, 255, 0.04) 35%, rgba(100, 107, 255, 0) 80%),
-                linear-gradient(90deg, rgba(114, 117, 252, 0) 0%, rgba(114, 117, 252, 0.12) 50%, rgba(114, 117, 252, 0) 100%),
-                linear-gradient(180deg, rgba(2, 5, 18, 0) 0%, rgba(2, 4, 18, 0.95) 28%)
-              `,
-            }}
-          />
-        </div>
-      ))}
-
-      {/* Tech Badges */}
-      {badges.map(({ icon: Icon, className }, index) => (
-        <div
-          key={index}
-          className={`absolute z-10 flex h-20 w-20 md:h-28 md:w-28 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/10 ${className}`}
+          className="absolute bottom-[-50px] left-1/2 h-[95%] w-[95%] -translate-x-1/2 rounded-[50%]"
           style={{
             background:
-              "radial-gradient(110% 95% at 50% 10%, rgba(255, 255, 255, 0.06) 0%, rgba(30, 33, 55, 0.22) 40%, rgba(9, 10, 22, 0.72) 100%)",
-            boxShadow:
-              "inset 0 0 0 1px rgba(255, 255, 255, 0.02), 0 24px 45px rgba(0, 0, 0, 0.35)",
+              "radial-gradient(65% 95% at 50% 0%, rgba(30, 33, 55, 1) 0%, rgba(20, 22, 40, 0.8) 40%, rgba(6, 7, 14, 1) 100%)",
           }}
-        >
-          <Icon className="h-8 w-8 md:h-11 md:w-11 text-white/30" />
-        </div>
-      ))}
-
-      {/* Bottom Arc */}
-      <div className="absolute -bottom-[19%] md:-bottom-[28%] left-1/2 z-10 h-[48%] md:h-[62%] w-[170%] md:w-[132%] -translate-x-1/2 overflow-hidden">
+        />
         {/* Glow */}
         <div
           className="absolute bottom-[32%] left-1/2 h-[86%] w-[86%] -translate-x-1/2 rounded-[50%] blur-[0.45px]"
@@ -94,15 +66,74 @@ export default function VerticalTechBars() {
               "0 -16px 58px rgba(125, 132, 255, 0.68), 0 -5px 35px rgba(236, 255, 255, 0.74)",
           }}
         />
-        {/* Core */}
-        <div
-          className="absolute bottom-0 left-1/2 h-[95%] w-[95%] -translate-x-1/2 rounded-[50%] border-t border-white/24"
-          style={{
-            background:
-              "radial-gradient(65% 95% at 50% 0%, rgba(110, 118, 255, 0.33) 0%, rgba(37, 38, 90, 0.42) 38%, rgba(8, 9, 22, 0.9) 78%, rgba(5, 6, 14, 1) 100%)",
-          }}
-        />
       </div>
+
+      {/* 2. Pillars Layer (Front) - z-20 */}
+      {/* Mask cuts the bottom curve so pillars "sit" on the arc */}
+      <div
+        className="absolute inset-0 z-20"
+        style={{
+          maskImage: `radial-gradient(ellipse 66% 30% at 50% 102%, transparent 0%, transparent 70%, black 71%)`,
+          WebkitMaskImage: `radial-gradient(ellipse 66% 30% at 50% 102%, transparent 0%, transparent 70%, black 71%)`,
+        }}
+      >
+        {pillarPositions.map((position, index) => {
+          let maskStyle = "none";
+
+          if (index === 0) {
+            maskStyle = "linear-gradient(to right, transparent 0%, black 460%)";
+          } else if (index === 8) {
+            maskStyle = "linear-gradient(to left, transparent 0%, black 40%)";
+          }
+
+          return (
+            <div
+              key={index}
+              className={`absolute h-full w-[10%] md:w-[7%] -translate-x-1/2 bottom-0 ${position}`}
+            >
+              <div
+                className="relative h-full w-full"
+                style={{
+                  background: `linear-gradient(0deg, 
+                    rgba(30, 33, 55, 0.55) 0%, 
+                    rgba(30, 33, 55, 0.2) 40%, 
+                    rgba(16, 17, 30, 0) 100%)`,
+                  maskImage: maskStyle,
+                  WebkitMaskImage: maskStyle,
+                }}
+              />
+            </div>
+          );
+        })}
+      </div>
+
+      {/* 3. Overlay Layer - z-30 */}
+      <div
+        className="absolute inset-0 z-30"
+        style={{
+          background:
+            "linear-gradient(180deg, rgba(6, 7, 14, 1) 0%, rgba(0, 0, 0, 0) 20%, rgba(0, 0, 0, 0) 80%, rgba(6, 7, 14, 0.9) 100%)",
+        }}
+      />
+
+      {/* 4. Icons Layer - z-40 */}
+      {iconPlacements.map(({ icon: Icon, pillarIndex, top }, index) => (
+        <div
+          key={index}
+          className={`absolute z-40 flex h-16 w-16 md:h-20 md:w-20 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/10 ${pillarPositions[pillarIndex]}`}
+          style={{ top: top }}
+        >
+          <div
+            className="absolute inset-0 rounded-full"
+            style={{
+              background:
+                "radial-gradient(circle at 50% 30%, rgba(255,255,255,0.08) 0%, rgba(10, 10, 20, 0.6) 100%)",
+              boxShadow: "0 10px 30px rgba(0,0,0,0.5)",
+            }}
+          />
+          <Icon className="relative h-7 w-7 md:h-9 md:w-9 text-white/40" />
+        </div>
+      ))}
     </div>
   );
 }
