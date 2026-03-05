@@ -3,7 +3,6 @@ import VerticalTechBars from "./VerticalTechBars";
 export default function HeroSection() {
   return (
     <section className="relative h-screen w-full overflow-hidden">
-      {/* Background */}
       <div
         className="absolute inset-0 z-0"
         style={{
