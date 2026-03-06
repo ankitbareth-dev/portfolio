@@ -10,6 +10,10 @@ import {
 import { SiNextdotjs, SiGraphql, SiAxios, SiTailwindcss } from "react-icons/si";
 import type { IconType } from "react-icons";
 
+// ==========================================
+// 1. CONFIGURATION (Easily Editable)
+// ==========================================
+
 const PILLARS_CONFIG = [
   { position: "left-[5%]", height: "h-[100%]" },
   { position: "left-[16.25%]", height: "h-[100%]" },
@@ -25,35 +29,31 @@ const PILLARS_CONFIG = [
 const ICONS_CONFIG: { icon: IconType; pillarIndex: number; top: string }[] = [
   { icon: DiHtml5, pillarIndex: 1, top: "25%" },
   { icon: DiCss3, pillarIndex: 1, top: "50%" },
-
   { icon: DiJavascript1, pillarIndex: 2, top: "40%" },
   { icon: DiReact, pillarIndex: 2, top: "65%" },
-
   { icon: SiGraphql, pillarIndex: 3, top: "52%" },
-
   { icon: SiNextdotjs, pillarIndex: 4, top: "65%" },
-
   { icon: DiNodejsSmall, pillarIndex: 5, top: "52%" },
-
   { icon: DiPostgresql, pillarIndex: 6, top: "40%" },
   { icon: SiAxios, pillarIndex: 6, top: "65%" },
-
   { icon: DiGit, pillarIndex: 7, top: "25%" },
   { icon: SiTailwindcss, pillarIndex: 7, top: "50%" },
 ];
 
+// ==========================================
+// 2. STYLES (Reference CSS Variables)
+// ==========================================
+
 const STYLES = {
-  ARC_CORE_BG: "rgba(30, 33, 55, 1)",
+  ARC_CORE_BG: "var(--tech-arc-bg)",
   ARC_RIM_BORDER: "3px solid rgba(114, 117, 252, 0.95)",
   ARC_RIM_SHADOW: "0 0 15px rgba(114, 117, 252, 0.4)",
 
-  PILLAR_GRADIENT: `linear-gradient(0deg, 
-    rgba(30, 33, 55, 0.85) 0%, 
-    rgba(30, 33, 55, 0.6) 100%)`,
+  PILLAR_GRADIENT: "var(--tech-pillar-gradient)",
 
   ICON_BG:
-    "radial-gradient(circle at 50% 30%, rgba(255,255,255,0.08) 0%, rgba(10, 10, 20, 0.6) 100%)",
-  ICON_SHADOW: "0 10px 30px rgba(0,0,0,0.5)",
+    "radial-gradient(circle at 50% 30%, rgba(255,255,255,0.08) 0%, var(--tech-icon-bg-inner) 100%)",
+  ICON_SHADOW: "var(--tech-icon-shadow)",
 };
 
 const ARC_CONFIG = {
@@ -63,9 +63,14 @@ const ARC_CONFIG = {
   BOTTOM_OFFSET: "0%",
 };
 
+// ==========================================
+// 3. COMPONENT
+// ==========================================
+
 export default function VerticalTechBars() {
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+      {/* --- Layer 1: Arc Container --- */}
       <div
         className="absolute left-1/2 z-50 -translate-x-1/2"
         style={{
@@ -74,6 +79,7 @@ export default function VerticalTechBars() {
           bottom: ARC_CONFIG.BOTTOM_OFFSET,
         }}
       >
+        {/* Core Shape */}
         <div
           className="absolute inset-0"
           style={{
@@ -82,12 +88,12 @@ export default function VerticalTechBars() {
           }}
         />
 
+        {/* Glow Layer */}
         <div
           className="absolute inset-0"
           style={{
             clipPath: `ellipse(32% ${ARC_CONFIG.BEND} at 50% 100%)`,
-            background:
-              "linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(114, 117, 252, 1) 20%, rgba(114, 117, 252, 0) 80%)",
+            background: "var(--tech-glow-gradient)",
             WebkitMaskImage:
               "radial-gradient(ellipse 75% 100% at 50% 0%, black 0%, transparent 100%)",
             maskImage:
@@ -99,6 +105,7 @@ export default function VerticalTechBars() {
         />
       </div>
 
+      {/* --- Layer 2: Vertical Pillars --- */}
       <div
         className="absolute inset-0 z-20"
         style={{
@@ -134,28 +141,28 @@ export default function VerticalTechBars() {
         })}
       </div>
 
+      {/* --- Layer 3: Global Overlay --- */}
       <div
         className="absolute inset-0 z-30"
         style={{
-          background:
-            "linear-gradient(180deg, rgba(6, 7, 14, 1) 0%, rgba(0, 0, 0, 0) 20%, rgba(0, 0, 0, 0) 80%, rgba(6, 7, 14, 0.9) 100%)",
+          background: "var(--tech-overlay-gradient)",
         }}
       />
 
+      {/* --- Layer 4: Tech Icons --- */}
       {ICONS_CONFIG.map(({ icon: Icon, pillarIndex, top }, index) => {
         const pillarPosition = PILLARS_CONFIG[pillarIndex]?.position;
-
-        const isSimpleIcon =
-          pillarIndex === 3 ||
-          pillarIndex === 4 ||
-          pillarIndex === 6 ||
-          pillarIndex === 7;
 
         return (
           <div
             key={index}
-            className={`absolute z-40 flex h-14 w-14 md:h-16 md:w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/10 ${pillarPosition}`}
-            style={{ top: top }}
+            className={`absolute z-40 flex h-14 w-14 md:h-16 md:w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full ${pillarPosition}`}
+            style={{
+              top: top,
+              borderColor: "var(--tech-icon-border)",
+              borderWidth: "1px",
+              borderStyle: "solid",
+            }}
           >
             <div
               className="absolute inset-0 rounded-full"
@@ -165,7 +172,8 @@ export default function VerticalTechBars() {
               }}
             />
             <Icon
-              className={`relative h-10 w-auto max-w-[70%] md:h-12 md:max-w-[75%] ${isSimpleIcon ? "text-white/90" : ""}`}
+              // Using 'text-foreground' ensures it is White in Dark Mode and Black in Light Mode
+              className={`relative h-10 w-auto max-w-[70%] md:h-12 md:max-w-[75%] text-foreground`}
             />
           </div>
         );

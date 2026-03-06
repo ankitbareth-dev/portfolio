@@ -4,16 +4,16 @@ import { useState } from "react";
 
 export default function Navbar() {
   const [active, setActive] = useState("Home");
-
   const navItems = ["Home", "About", "Projects", "Contact"];
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-8 py-5 md:py-6">
+      {/* Logo */}
       <div className="text-foreground font-display text-lg font-medium tracking-tight">
         Hello World
       </div>
 
-      {/* Center Navigation - Hidden on small screens */}
+      {/* Center Navigation */}
       <div className="hidden md:flex items-center gap-1 rounded-full bg-surface/80 backdrop-blur-md border border-border px-2 py-1">
         {navItems.map((item) => (
           <button
