@@ -22,10 +22,12 @@ export default function HeroSection() {
 
       <div className="relative z-20 flex h-full w-full flex-col items-center justify-start pt-40 px-6 md:pt-25">
         <div className="max-w-4xl text-center">
-          <h1 className="text-3xl md:text-5xl font-semibold text-foreground leading-tight tracking-tight">
-            Front-End Developer, Crafting
-            <br />
-            <span className="text-muted-foreground text-2xl md:text-4xl font-medium block mt-2">
+          <h1 className="font-semibold text-foreground leading-tight tracking-tight">
+            <span className="block whitespace-nowrap text-[clamp(1.8rem,3.5vw,3rem)]">
+              Front-End Developer, Crafting
+            </span>
+
+            <span className="block mt-2 whitespace-nowrap text-muted-foreground font-medium text-[clamp(1.3rem,2.6vw,2.25rem)]">
               Scalable, Modern Web Applications
             </span>
           </h1>

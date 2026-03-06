@@ -4,9 +4,11 @@ import { useState } from "react";
 import { useTheme } from "next-themes";
 import { AnimatePresence, motion } from "framer-motion";
 import { MdDarkMode, MdLightMode } from "react-icons/md";
+import { IoMenu, IoClose } from "react-icons/io5";
 
 export default function Navbar() {
   const [active, setActive] = useState("Home");
+  const [isOpen, setIsOpen] = useState(false);
   const { theme, setTheme } = useTheme();
 
   const navItems = ["Home", "About", "Projects", "Contact"];
@@ -31,7 +33,7 @@ export default function Navbar() {
         ))}
       </div>
 
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-3 ml-auto">
         <button className="px-4 py-2 rounded-full bg-surface border border-border text-foreground text-sm font-medium hover:bg-surface/80 transition-colors">
           Hire Me
         </button>
@@ -64,7 +66,67 @@ export default function Navbar() {
             )}
           </AnimatePresence>
         </button>
+
+        <button
+          onClick={() => setIsOpen(true)}
+          className="md:hidden p-2 text-foreground hover:bg-surface/80 rounded-full transition-colors"
+        >
+          <IoMenu className="h-6 w-6" />
+        </button>
       </div>
+
+      <AnimatePresence>
+        {isOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsOpen(false)}
+              className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[60]"
+            />
+
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="fixed top-0 right-0 h-full w-3/4 max-w-sm bg-background border-l border-border shadow-2xl z-[70] p-8 flex flex-col"
+            >
+              <div className="flex justify-between items-center mb-10">
+                <span className="text-sm font-bold text-muted uppercase tracking-wider">
+                  Menu
+                </span>
+                <button
+                  onClick={() => setIsOpen(false)}
+                  className="p-2 rounded-full hover:bg-surface transition-colors text-foreground"
+                >
+                  <IoClose className="h-6 w-6" />
+                </button>
+              </div>
+
+              <div className="flex flex-col gap-4">
+                {navItems.map((item) => (
+                  <button
+                    key={item}
+                    onClick={() => {
+                      setActive(item);
+                      setIsOpen(false);
+                    }}
+                    className={`text-left px-4 py-3 rounded-xl text-lg font-medium transition-colors ${
+                      active === item
+                        ? "bg-primary/10 text-primary"
+                        : "text-muted hover:text-foreground hover:bg-surface/50"
+                    }`}
+                  >
+                    {item}
+                  </button>
+                ))}
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </nav>
   );
 }
