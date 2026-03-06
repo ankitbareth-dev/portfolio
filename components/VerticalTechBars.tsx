@@ -10,10 +10,6 @@ import {
 import { SiNextdotjs, SiGraphql, SiAxios, SiTailwindcss } from "react-icons/si";
 import type { IconType } from "react-icons";
 
-// ==========================================
-// 1. CONFIGURATION (Easily Editable)
-// ==========================================
-
 const PILLARS_CONFIG = [
   { position: "left-[5%]", height: "h-[100%]" },
   { position: "left-[16.25%]", height: "h-[100%]" },
@@ -40,10 +36,6 @@ const ICONS_CONFIG: { icon: IconType; pillarIndex: number; top: string }[] = [
   { icon: SiTailwindcss, pillarIndex: 7, top: "50%" },
 ];
 
-// ==========================================
-// 2. STYLES (Reference CSS Variables)
-// ==========================================
-
 const STYLES = {
   ARC_CORE_BG: "var(--tech-arc-bg)",
   ARC_RIM_BORDER: "3px solid rgba(114, 117, 252, 0.95)",
@@ -62,10 +54,6 @@ const ARC_CONFIG = {
   BEND: "100%",
   BOTTOM_OFFSET: "0%",
 };
-
-// ==========================================
-// 3. COMPONENT
-// ==========================================
 
 export default function VerticalTechBars() {
   return (
@@ -172,7 +160,6 @@ export default function VerticalTechBars() {
               }}
             />
             <Icon
-              // Using 'text-foreground' ensures it is White in Dark Mode and Black in Light Mode
               className={`relative h-10 w-auto max-w-[70%] md:h-12 md:max-w-[75%] text-foreground`}
             />
           </div>

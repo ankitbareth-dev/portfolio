@@ -13,8 +13,33 @@
   --color-primary: #7275fc;
   --color-primary-foreground: #ffffff;
 
+  /* Hero Background (Dark) */
+  --hero-bg-gradient:
+    radial-gradient(
+      130% 100% at 50% 105%,
+      rgba(75, 83, 255, 0.25) 0%,
+      rgba(7, 8, 19, 0.05) 52%,
+      rgba(6, 7, 12, 0) 100%
+    ),
+    linear-gradient(180deg, #06070e 0%, #02030a 100%);
+
+  /* Hero Overlay (Dark) */
+  --hero-overlay-gradient:
+    linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.65) 0%,
+      rgba(0, 0, 0, 0.1) 50%,
+      rgba(0, 0, 0, 0.65) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(2, 3, 8, 0.9) 0%,
+      rgba(0, 0, 0, 0) 50%,
+      rgba(0, 0, 0, 0.9) 100%
+    );
+
   /* Tech Bars (Dark) */
-  --tech-arc-bg: rgba(30, 33, 55, 1);
+  --tech-arc-bg: rgba(20, 20, 40, 1);
   --tech-glow-gradient: linear-gradient(
     to bottom,
     rgba(255, 255, 255, 1) 0%,
@@ -23,8 +48,8 @@
   );
   --tech-pillar-gradient: linear-gradient(
     0deg,
-    rgba(30, 33, 55, 0.85) 0%,
-    rgba(30, 33, 55, 0.6) 100%
+    rgba(114, 117, 252, 0.3) 0%,
+    rgba(114, 117, 252, 0.05) 100%
   );
   --tech-overlay-gradient: linear-gradient(
     180deg,
@@ -41,13 +66,55 @@
 @layer base {
   /* --- LIGHT MODE OVERRIDES --- */
   [data-theme="light"] {
+    /* Navbar & Global Colors */
     --color-background: #ffffff;
-
-    /* These variables control the Navbar appearance in Light Mode */
     --color-surface: #f3f4f6;
     --color-foreground: #171717;
     --color-border: #e5e7eb;
     --color-muted: #52525b;
+
+    /* Hero Background (Light) */
+    --hero-bg-gradient: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+
+    --hero-overlay-gradient:
+      linear-gradient(
+        90deg,
+        rgba(0, 0, 0, 0.05) 0%,
+        rgba(0, 0, 0, 0) 50%,
+        rgba(0, 0, 0, 0.05) 100%
+      ),
+      linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.5) 0%,
+        rgba(255, 255, 255, 0) 50%,
+        rgba(255, 255, 255, 0) 100%
+      );
+
+    --tech-arc-bg: rgba(241, 245, 249, 0.95);
+
+    --tech-glow-gradient: linear-gradient(
+      to bottom,
+      rgba(99, 102, 241, 0.9) 0%,
+      rgba(99, 102, 241, 0) 50%
+    );
+
+    --tech-pillar-gradient: linear-gradient(
+      0deg,
+      rgba(241, 210, 230, 0.7) 0%,
+      rgba(241, 245, 249, 0.4) 100%
+    );
+
+    --tech-overlay-gradient: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.6) 0%,
+      rgba(255, 255, 255, 0) 20%,
+      rgba(255, 255, 255, 0) 80%,
+      rgba(255, 255, 255, 0) 100%
+    );
+
+    --tech-icon-border: rgba(0, 0, 0, 0.1);
+    --tech-icon-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    --tech-icon-bg-inner: rgba(255, 255, 255, 0.9);
   }
 
   body {
