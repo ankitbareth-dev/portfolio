@@ -20,7 +20,7 @@ export default function HeroSection() {
         />
       </div>
 
-      <div className="relative z-20 flex h-full w-full flex-col items-center justify-start pt-40 px-6 md:pt-25">
+      <div className="relative z-20 flex h-full w-full flex-col items-center justify-start pt-26 px-6 md:pt-25">
         <div className="max-w-4xl text-center">
           <h1 className="font-semibold text-foreground leading-tight tracking-tight">
             <span className="block whitespace-nowrap text-[clamp(1.8rem,3.5vw,3rem)]">
