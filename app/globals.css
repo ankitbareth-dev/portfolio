@@ -4,6 +4,7 @@
   --font-display: var(--font-display);
   --font-body: var(--font-body);
 
+  /* --- DEFAULT (DARK MODE) --- */
   --color-background: #0a0a0a;
   --color-surface: #171717;
   --color-border: #262626;
@@ -12,6 +13,7 @@
   --color-primary: #7275fc;
   --color-primary-foreground: #ffffff;
 
+  /* Tech Bars (Dark) */
   --tech-arc-bg: rgba(30, 33, 55, 1);
   --tech-glow-gradient: linear-gradient(
     to bottom,
@@ -37,8 +39,15 @@
 }
 
 @layer base {
+  /* --- LIGHT MODE OVERRIDES --- */
   [data-theme="light"] {
     --color-background: #ffffff;
+
+    /* These variables control the Navbar appearance in Light Mode */
+    --color-surface: #f3f4f6;
+    --color-foreground: #171717;
+    --color-border: #e5e7eb;
+    --color-muted: #52525b;
   }
 
   body {
