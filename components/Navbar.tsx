@@ -46,7 +46,7 @@ export default function Navbar() {
           {/* Theme Toggle */}
           <button
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="relative overflow-hidden rounded-full bg-surface border border-border p-2 text-foreground hover:bg-surface/80 transition-colors shadow-sm"
+            className="relative overflow-hidden rounded-full p-2"
           >
             <AnimatePresence mode="wait" initial={false}>
               {theme === "dark" ? (
