@@ -1,6 +1,6 @@
 import VerticalTechBars from "./VerticalTechBars";
 
-export default function HeroSection() {
+export default function Hero() {
   return (
     <section className="relative h-screen w-full overflow-hidden">
       <div
