@@ -5,24 +5,35 @@ import { useTheme } from "next-themes";
 import { AnimatePresence, motion } from "framer-motion";
 import { MdDarkMode, MdLightMode } from "react-icons/md";
 import { IoMenu, IoClose } from "react-icons/io5";
+import Link from "next/link"; // Import Link for navigation
 
 export default function Navbar() {
   const [active, setActive] = useState("Home");
   const [isOpen, setIsOpen] = useState(false);
   const { theme, setTheme } = useTheme();
 
+  // Center links remain as requested
   const navItems = ["Home", "About", "Projects", "Contact"];
+
+  // Helper to convert item name to URL hash
+  const getHref = (item: string) => {
+    if (item === "Home") return "/";
+    return `#${item.toLowerCase()}`;
+  };
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-8 py-5 md:py-6">
       {/* Left Side (Logo) */}
-      <div className="text-sm font-semibold text-foreground"></div>
+      <Link href="/" className="text-sm font-semibold text-foreground">
+        {/* Logo content */}
+      </Link>
 
       {/* Center Nav Links (Desktop Only) */}
       <div className="absolute left-1/2 -translate-x-1/2 hidden md:flex items-center gap-1 rounded-full bg-surface/80 backdrop-blur-md border border-border px-2 py-1">
         {navItems.map((item) => (
-          <button
+          <Link
             key={item}
+            href={getHref(item)}
             onClick={() => setActive(item)}
             className={`px-5 py-1.5 rounded-full text-sm font-medium transition-all duration-300 ${
               active === item
@@ -31,16 +42,19 @@ export default function Navbar() {
             }`}
           >
             {item}
-          </button>
+          </Link>
         ))}
       </div>
 
       {/* Right Side Actions */}
       <div className="flex items-center gap-3">
-        {/* Hire Me (hidden on small screens) */}
-        <button className="hidden sm:block px-4 py-2 rounded-full bg-surface border border-border text-foreground text-sm font-medium hover:bg-surface/80 transition-colors">
-          Hire Me
-        </button>
+        {/* --- REPLACE HIRE ME WITH BLOGS BUTTON --- */}
+        <Link
+          href="/blogs"
+          className="hidden sm:block px-4 py-2 rounded-full bg-surface border border-border text-foreground text-sm font-medium hover:bg-surface/80 transition-colors"
+        >
+          Blogs
+        </Link>
 
         {/* Theme Toggle */}
         <button
@@ -85,7 +99,7 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* Mobile Dropdown Menu - "Previous Project" Wrapper Style */}
+      {/* Mobile Dropdown Menu */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -93,14 +107,13 @@ export default function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
-            // Positioned below the navbar bar (top-full)
             className="absolute top-full left-0 right-0 mt-2 px-4 md:hidden"
           >
-            {/* The "Wrapper" Card styled exactly like the previous project */}
             <div className="w-full rounded-2xl border border-border bg-surface/95 backdrop-blur-xl shadow-xl p-6 flex flex-col gap-4">
               {navItems.map((item) => (
-                <button
+                <Link
                   key={item}
+                  href={getHref(item)}
                   onClick={() => {
                     setActive(item);
                     setIsOpen(false);
@@ -112,16 +125,19 @@ export default function Navbar() {
                   }`}
                 >
                   {item}
-                </button>
+                </Link>
               ))}
 
-              {/* Divider */}
               <div className="border-t border-border my-2"></div>
 
-              {/* Hire Me Button inside the card */}
-              <button className="flex items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/25 transition-all hover:scale-105">
-                Hire Me
-              </button>
+              {/* Mobile Blogs Button */}
+              <Link
+                href="/blogs"
+                onClick={() => setIsOpen(false)}
+                className="flex items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/25 transition-all hover:scale-105"
+              >
+                Blogs
+              </Link>
             </div>
           </motion.div>
         )}
