@@ -1,10 +1,45 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Code2, Briefcase } from "lucide-react";
+import { Code2, Briefcase, FolderGit2, GitPullRequest } from "lucide-react";
 import Image from "next/image";
+// FIX: Use curly braces for named import
+import { GitHubCalendar } from "react-github-calendar";
+
+// Define shape of GitHub Data
+interface GitHubStats {
+  public_repos: number;
+  login: string;
+}
 
 export default function About() {
+  const [githubData, setGithubData] = useState<GitHubStats | null>(null);
+
+  useEffect(() => {
+    const fetchGitHubStats = async () => {
+      try {
+        // REPLACE 'your-username' with your actual GitHub username
+        const response = await fetch(
+          "https://api.github.com/users/ankitbareth-dev",
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setGithubData(data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch GitHub stats", error);
+      }
+    };
+
+    fetchGitHubStats();
+  }, []);
+
+  // Custom theme for the GitHub Calendar to match your portfolio
+  const githubTheme = {
+    dark: ["#171717", "#4f46e5", "#6366f1", "#818cf8", "#a5b4fc"],
+  };
+
   return (
     <section
       id="about"
@@ -19,7 +54,6 @@ export default function About() {
       />
 
       <div className="relative z-10 mx-auto max-w-7xl px-6 md:px-8">
-        {/* Grid defaults to 'items-stretch', making columns equal height */}
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16">
           {/* --- Left Column: Image --- */}
           <motion.div
@@ -27,16 +61,13 @@ export default function About() {
             whileInView={{ opacity: 1, x: 0, scale: 1 }}
             transition={{ duration: 0.7, ease: "easeOut" }}
             viewport={{ once: true, amount: 0.2 }}
-            // h-full ensures it stretches to match the right column's height
             className="relative hidden md:flex justify-center items-center h-full"
           >
-            {/* Image Container - No background colors or glows */}
             <div className="relative w-full h-full rounded-2xl overflow-hidden border border-border shadow-2xl">
               <Image
                 src="/about-image.png"
                 alt="Developer Portrait"
                 fill
-                // object-top keeps the head visible if the container is shorter than the image aspect ratio
                 className="object-cover object-top"
                 priority
               />
@@ -77,6 +108,52 @@ export default function About() {
                 platforms.
               </p>
             </div>
+
+            {/* --- GitHub Stats & Graph --- */}
+            {githubData && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+                viewport={{ once: true }}
+                className="flex flex-col gap-4"
+              >
+                {/* Stat Cards */}
+                <div className="flex gap-4">
+                  <div className="flex items-center gap-3 px-4 py-3 rounded-xl border border-border bg-surface/50">
+                    <FolderGit2 className="w-5 h-5 text-primary" />
+                    <div>
+                      <p className="text-xl font-bold text-foreground">
+                        {githubData.public_repos}+
+                      </p>
+                      <p className="text-xs text-muted">Projects</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-3 px-4 py-3 rounded-xl border border-border bg-surface/50">
+                    <GitPullRequest className="w-5 h-5 text-primary" />
+                    <div>
+                      <p className="text-xl font-bold text-foreground">500+</p>
+                      <p className="text-xs text-muted">Contributions</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Contribution Graph */}
+                <div className="p-4 rounded-xl border border-border bg-surface/30 backdrop-blur-sm mt-2 overflow-x-auto">
+                  <GitHubCalendar
+                    username={githubData.login}
+                    theme={githubTheme}
+                    colorScheme="dark"
+                    hideColorLegend={true}
+                    hideMonthLabels={false}
+                    fontSize={12}
+                    blockSize={12}
+                    blockMargin={4}
+                  />
+                </div>
+              </motion.div>
+            )}
 
             {/* Experience Highlights */}
             <div className="grid gap-4 pt-4">
