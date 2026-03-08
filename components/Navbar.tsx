@@ -7,17 +7,17 @@ import { MdDarkMode, MdLightMode } from "react-icons/md";
 import { IoMenu, IoClose } from "react-icons/io5";
 import Link from "next/link";
 
+const navItems = ["Home", "About", "Projects", "Contact"];
+
+const getHref = (item: string) => {
+  if (item === "Home") return "/";
+  return `#${item.toLowerCase()}`;
+};
+
 export default function Navbar() {
   const [active, setActive] = useState("Home");
   const [isOpen, setIsOpen] = useState(false);
   const { theme, setTheme } = useTheme();
-
-  const navItems = ["Home", "About", "Projects", "Contact"];
-
-  const getHref = (item: string) => {
-    if (item === "Home") return "/";
-    return `#${item.toLowerCase()}`;
-  };
 
   const handleNavClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
