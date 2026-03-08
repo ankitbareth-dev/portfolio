@@ -5,17 +5,15 @@ import { useTheme } from "next-themes";
 import { AnimatePresence, motion } from "framer-motion";
 import { MdDarkMode, MdLightMode } from "react-icons/md";
 import { IoMenu, IoClose } from "react-icons/io5";
-import Link from "next/link"; // Import Link for navigation
+import Link from "next/link";
 
 export default function Navbar() {
   const [active, setActive] = useState("Home");
   const [isOpen, setIsOpen] = useState(false);
   const { theme, setTheme } = useTheme();
 
-  // Center links remain as requested
   const navItems = ["Home", "About", "Projects", "Contact"];
 
-  // Helper to convert item name to URL hash
   const getHref = (item: string) => {
     if (item === "Home") return "/";
     return `#${item.toLowerCase()}`;
@@ -48,10 +46,9 @@ export default function Navbar() {
 
       {/* Right Side Actions */}
       <div className="flex items-center gap-3">
-        {/* --- REPLACE HIRE ME WITH BLOGS BUTTON --- */}
         <Link
           href="/blogs"
-          className="hidden sm:block px-4 py-2 rounded-full bg-surface border border-border text-foreground text-sm font-medium hover:bg-surface/80 transition-colors"
+          className="hidden sm:block px-4 py-2 rounded-full text-foreground text-sm font-medium"
         >
           Blogs
         </Link>
@@ -99,47 +96,73 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* Mobile Dropdown Menu */}
+      {/* Mobile Slide-in Menu (From Right) */}
       <AnimatePresence>
         {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.2 }}
-            className="absolute top-full left-0 right-0 mt-2 px-4 md:hidden"
-          >
-            <div className="w-full rounded-2xl border border-border bg-surface/95 backdrop-blur-xl shadow-xl p-6 flex flex-col gap-4">
-              {navItems.map((item) => (
-                <Link
-                  key={item}
-                  href={getHref(item)}
-                  onClick={() => {
-                    setActive(item);
-                    setIsOpen(false);
-                  }}
-                  className={`text-left px-4 py-3 rounded-xl text-base font-medium transition-colors ${
-                    active === item
-                      ? "bg-primary/10 text-primary"
-                      : "text-muted hover:text-foreground hover:bg-background/50"
-                  }`}
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsOpen(false)}
+              className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[60]"
+            />
+
+            {/* Menu Panel */}
+            <motion.div
+              initial={{ x: "100%", opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: "100%", opacity: 0 }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="fixed top-0 right-0 w-72 h-full z-[70] border-l border-border bg-surface/95 backdrop-blur-xl shadow-xl flex flex-col"
+            >
+              {/* Panel Header with Close Button */}
+              <div className="flex items-center justify-between p-6 border-b border-border">
+                <span className="text-sm font-bold text-muted uppercase tracking-wider">
+                  Menu
+                </span>
+                <button
+                  onClick={() => setIsOpen(false)}
+                  className="p-2 rounded-full hover:bg-background/50 text-foreground transition-colors"
                 >
-                  {item}
+                  <IoClose className="h-6 w-6" />
+                </button>
+              </div>
+
+              {/* Nav Links */}
+              <div className="flex flex-col gap-2 p-6">
+                {navItems.map((item) => (
+                  <Link
+                    key={item}
+                    href={getHref(item)}
+                    onClick={() => {
+                      setActive(item);
+                      setIsOpen(false);
+                    }}
+                    className={`text-left px-4 py-3 rounded-xl text-base font-medium transition-colors ${
+                      active === item
+                        ? "bg-primary/10 text-primary"
+                        : "text-muted hover:text-foreground hover:bg-background/50"
+                    }`}
+                  >
+                    {item}
+                  </Link>
+                ))}
+
+                <div className="border-t border-border my-4"></div>
+
+                {/* Mobile Blogs Button */}
+                <Link
+                  href="/blogs"
+                  onClick={() => setIsOpen(false)}
+                  className="flex items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/25 transition-all hover:scale-105"
+                >
+                  Blogs
                 </Link>
-              ))}
-
-              <div className="border-t border-border my-2"></div>
-
-              {/* Mobile Blogs Button */}
-              <Link
-                href="/blogs"
-                onClick={() => setIsOpen(false)}
-                className="flex items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/25 transition-all hover:scale-105"
-              >
-                Blogs
-              </Link>
-            </div>
-          </motion.div>
+              </div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </nav>
