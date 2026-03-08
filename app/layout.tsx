@@ -17,9 +17,9 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Portfolio",
+  title: "Ankit Bareth | Front-End Developer",
   description:
-    "Full-Stack Developer crafting scalable, modern web applications.",
+    "Front-End Developer specializing in React, TypeScript, and Next.js. I build scalable, high-performance web applications with intuitive user interfaces. View my portfolio, projects, and experience.",
 };
 
 export default function RootLayout({
