@@ -70,7 +70,8 @@
     --color-background: #ffffff;
     --color-surface: #f3f4f6;
     --color-foreground: #171717;
-    --color-border: #e5e7eb;
+
+    --color-border: #d1d5db;
     --color-muted: #52525b;
 
     /* Hero Background (Light) */
@@ -79,9 +80,9 @@
     --hero-overlay-gradient:
       linear-gradient(
         90deg,
-        rgba(0, 0, 0, 0.05) 0%,
+        rgba(0, 0, 0, 0.03) 0%,
         rgba(0, 0, 0, 0) 50%,
-        rgba(0, 0, 0, 0.05) 100%
+        rgba(0, 0, 0, 0.03) 100%
       ),
       linear-gradient(
         180deg,
@@ -121,11 +122,12 @@
     @apply bg-background text-foreground font-body antialiased;
   }
 }
+
 html {
   scroll-behavior: smooth;
-
   scroll-padding-top: 5rem;
 }
+
 html,
 body {
   -ms-overflow-style: none;

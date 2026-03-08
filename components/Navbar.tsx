@@ -47,7 +47,8 @@ export default function Navbar() {
       </Link>
 
       {/* Center Nav Links (Desktop Only) */}
-      <div className="absolute left-1/2 -translate-x-1/2 hidden md:flex items-center gap-1 rounded-full bg-surface/80 backdrop-blur-md border border-border px-2 py-1">
+
+      <div className="absolute left-1/2 -translate-x-1/2 hidden md:flex items-center gap-1 rounded-full bg-surface/80 backdrop-blur-md border border-border px-2 py-1 shadow-lg">
         {navItems.map((item) => (
           <Link
             key={item}
@@ -130,12 +131,13 @@ export default function Navbar() {
             />
 
             {/* Menu Panel */}
+
             <motion.div
               initial={{ x: "100%", opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: "100%", opacity: 0 }}
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed top-0 right-0 w-72 h-full z-[70] border-l border-border bg-surface/95 backdrop-blur-xl shadow-xl flex flex-col"
+              className="fixed top-0 right-0 w-72 h-full z-[70] border-l border-border bg-surface/95 backdrop-blur-xl shadow-2xl flex flex-col"
             >
               {/* Panel Header with Close Button */}
               <div className="flex items-center justify-between p-6 border-b border-border">
