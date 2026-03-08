@@ -1,11 +1,10 @@
 "use client";
 
-import { useState } from "react";
-import { useTheme } from "next-themes";
+import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { MdDarkMode, MdLightMode } from "react-icons/md";
 import { IoMenu, IoClose } from "react-icons/io5";
 import Link from "next/link";
+import ThemeToggle from "./ThemeToggle";
 
 const navItems = ["Home", "About", "Projects", "Contact"];
 
@@ -17,7 +16,17 @@ const getHref = (item: string) => {
 export default function Navbar() {
   const [active, setActive] = useState("Home");
   const [isOpen, setIsOpen] = useState(false);
-  const { theme, setTheme } = useTheme();
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768) {
+        setIsOpen(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const handleNavClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
@@ -28,8 +37,7 @@ export default function Navbar() {
     if (item === "Home") {
       window.scrollTo({ top: 0, behavior: "smooth" });
     } else {
-      const targetId = item.toLowerCase();
-      const element = document.getElementById(targetId);
+      const element = document.getElementById(item.toLowerCase());
       if (element) {
         element.scrollIntoView({ behavior: "smooth", block: "start" });
       }
@@ -47,7 +55,6 @@ export default function Navbar() {
       </Link>
 
       {/* Center Nav Links (Desktop Only) */}
-
       <div className="absolute left-1/2 -translate-x-1/2 hidden md:flex items-center gap-1 rounded-full bg-surface/80 backdrop-blur-md border border-border px-2 py-1 shadow-lg">
         {navItems.map((item) => (
           <Link
@@ -74,35 +81,7 @@ export default function Navbar() {
           Blogs
         </Link>
 
-        {/* Theme Toggle */}
-        <button
-          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-          className="relative overflow-hidden rounded-full p-2"
-        >
-          <AnimatePresence mode="wait" initial={false}>
-            {theme === "dark" ? (
-              <motion.div
-                key="moon"
-                initial={{ y: 20, opacity: 0, rotate: -90 }}
-                animate={{ y: 0, opacity: 1, rotate: 0 }}
-                exit={{ y: -20, opacity: 0, rotate: 90 }}
-                transition={{ duration: 0.3, ease: "easeInOut" }}
-              >
-                <MdDarkMode className="h-5 w-5" />
-              </motion.div>
-            ) : (
-              <motion.div
-                key="sun"
-                initial={{ y: 20, opacity: 0, rotate: 90 }}
-                animate={{ y: 0, opacity: 1, rotate: 0 }}
-                exit={{ y: -20, opacity: 0, rotate: -90 }}
-                transition={{ duration: 0.3, ease: "easeInOut" }}
-              >
-                <MdLightMode className="h-5 w-5 text-amber-400" />
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </button>
+        <ThemeToggle />
 
         {/* Hamburger Menu (Mobile Only) */}
         <button
@@ -131,15 +110,14 @@ export default function Navbar() {
             />
 
             {/* Menu Panel */}
-
             <motion.div
-              initial={{ x: "100%", opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              exit={{ x: "100%", opacity: 0 }}
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
               className="fixed top-0 right-0 w-72 h-full z-[70] border-l border-border bg-surface/95 backdrop-blur-xl shadow-2xl flex flex-col"
             >
-              {/* Panel Header with Close Button */}
+              {/* Panel Header */}
               <div className="flex items-center justify-between p-6 border-b border-border">
                 <span className="text-sm font-bold text-muted uppercase tracking-wider">
                   Menu
