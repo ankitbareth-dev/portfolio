@@ -4,10 +4,9 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Code2, Briefcase, FolderGit2, GitPullRequest } from "lucide-react";
 import Image from "next/image";
-// FIX: Use curly braces for named import
 import { GitHubCalendar } from "react-github-calendar";
+import { useTheme } from "next-themes";
 
-// Define shape of GitHub Data
 interface GitHubStats {
   public_repos: number;
   login: string;
@@ -15,6 +14,8 @@ interface GitHubStats {
 
 export default function About() {
   const [githubData, setGithubData] = useState<GitHubStats | null>(null);
+
+  const { resolvedTheme } = useTheme();
 
   useEffect(() => {
     const fetchGitHubStats = async () => {
@@ -35,9 +36,9 @@ export default function About() {
     fetchGitHubStats();
   }, []);
 
-  // Custom theme for the GitHub Calendar to match your portfolio
   const githubTheme = {
     dark: ["#171717", "#4f46e5", "#6366f1", "#818cf8", "#a5b4fc"],
+    light: ["#ebedf0", "#c6e48b", "#7bc96f", "#239a3b", "#196127"],
   };
 
   return (
@@ -144,7 +145,7 @@ export default function About() {
                   <GitHubCalendar
                     username={githubData.login}
                     theme={githubTheme}
-                    colorScheme="dark"
+                    colorScheme={resolvedTheme === "dark" ? "dark" : "light"}
                     hideColorLegend={true}
                     hideMonthLabels={false}
                     fontSize={12}
