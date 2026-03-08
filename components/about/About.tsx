@@ -7,6 +7,7 @@ import { Code2, Briefcase, FolderGit2, GitPullRequest } from "lucide-react";
 import Image from "next/image";
 import { GitHubCalendar, type Activity } from "react-github-calendar";
 import { ExperienceCard } from "./ExperienceCard";
+import aboutImg from "@/assets/about-image.png";
 
 const transformData = (contributions: Activity[]): Activity[] => {
   const start = new Date("2025-11-01");
@@ -67,9 +68,8 @@ export default function About() {
   useEffect(() => {
     const fetchGitHubStats = async () => {
       try {
-        const response = await fetch(
-          "https://api.github.com/users/ankitbareth-dev",
-        );
+        const response = await fetch("/api/github");
+
         if (response.ok) {
           const data = await response.json();
           setGithubData(data);
@@ -121,9 +121,10 @@ export default function About() {
           >
             <div className="relative w-full h-full rounded-2xl overflow-hidden border border-border shadow-2xl">
               <Image
-                src="/about-image.png"
+                src={aboutImg}
                 alt="Developer Portrait"
                 fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover object-top"
                 priority
               />

@@ -24,7 +24,6 @@ export const ExperienceCard = ({ item, index }: ExperienceCardProps) => {
     <motion.div
       initial={{ opacity: 0, x: 20 }}
       whileInView={{ opacity: 1, x: 0 }}
-      // 2. Use index for staggered animation delay
       transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
       viewport={{ once: true }}
       className="flex gap-4 p-4 rounded-xl border border-border bg-surface/50 backdrop-blur-sm hover:bg-surface/80 transition-colors"
