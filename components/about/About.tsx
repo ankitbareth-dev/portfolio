@@ -5,7 +5,14 @@ import { useTheme } from "next-themes";
 import { motion } from "framer-motion";
 import { Code2, Briefcase, FolderGit2, GitPullRequest } from "lucide-react";
 import Image from "next/image";
-import { GitHubCalendar } from "react-github-calendar";
+import { GitHubCalendar, type Activity } from "react-github-calendar";
+import { ExperienceCard } from "./ExperienceCard";
+
+const transformData = (contributions: Activity[]): Activity[] => {
+  const start = new Date("2025-11-01");
+
+  return contributions.filter((day) => new Date(day.date) >= start);
+};
 
 const EXPERIENCE_DATA = [
   {
@@ -52,7 +59,7 @@ export default function About() {
   const githubTheme = useMemo(
     () => ({
       dark: ["#171717", "#4f46e5", "#6366f1", "#818cf8", "#a5b4fc"],
-      light: ["#ebedf0", "#c6e48b", "#7bc96f", "#239a3b", "#196127"],
+      light: ["#ffffff", "#4f46e5", "#6366f1", "#818cf8", "#a5b4fc"],
     }),
     [],
   );
@@ -75,9 +82,20 @@ export default function About() {
   }, []);
 
   useEffect(() => {
-    if (calendarRef.current) {
-      calendarRef.current.scrollLeft = calendarRef.current.scrollWidth;
-    }
+    if (!calendarRef.current) return;
+
+    const el = calendarRef.current;
+
+    const scrollToEnd = () => {
+      el.scrollLeft = el.scrollWidth - el.clientWidth;
+    };
+
+    scrollToEnd();
+
+    const observer = new ResizeObserver(scrollToEnd);
+    observer.observe(el);
+
+    return () => observer.disconnect();
   }, [githubData]);
 
   return (
@@ -154,9 +172,9 @@ export default function About() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.3 }}
                 viewport={{ once: true }}
-                className="flex flex-col gap-4"
+                className="flex flex-col gap-4 "
               >
-                <div className="flex gap-4">
+                <div className="flex gap-4 ">
                   <div className="flex items-center gap-3 px-4 py-3 rounded-xl border border-border bg-surface/50">
                     <FolderGit2 className="w-5 h-5 text-primary" />
                     <div>
@@ -175,59 +193,30 @@ export default function About() {
                   </div>
                 </div>
 
-                {/* Calendar - Step 1 & 2 Combined */}
                 <div
                   ref={calendarRef}
-                  className="p-4 rounded-xl border border-border bg-surface/30 backdrop-blur-sm mt-2 overflow-x-auto no-scrollbar"
+                  className="calendar-scroll p-4 rounded-xl border border-border bg-surface/30 backdrop-blur-sm mt-2 overflow-x-auto"
                 >
-                  <GitHubCalendar
-                    username={githubData.login}
-                    theme={githubTheme}
-                    colorScheme={resolvedTheme === "dark" ? "dark" : "light"}
-                    showColorLegend={false}
-                    showMonthLabels={true}
-                    fontSize={12}
-                    blockSize={12}
-                    blockMargin={4}
-                  />
+                  <div className="min-w-max pb-4">
+                    <GitHubCalendar
+                      username={githubData.login}
+                      theme={githubTheme}
+                      colorScheme={resolvedTheme === "dark" ? "dark" : "light"}
+                      transformData={transformData}
+                      showColorLegend={false}
+                      showMonthLabels={true}
+                      fontSize={12}
+                      blockSize={12}
+                      blockMargin={4}
+                    />
+                  </div>
                 </div>
               </motion.div>
             )}
 
-            {/* Experience - Step 3 & 4 Combined */}
             <div className="grid gap-4 pt-4">
               {EXPERIENCE_DATA.map((item, index) => (
-                <motion.div
-                  key={item.title}
-                  initial={{ opacity: 0, x: 20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
-                  viewport={{ once: true }}
-                  className="flex gap-4 p-4 rounded-xl border border-border bg-surface/50 backdrop-blur-sm hover:bg-surface/80 transition-colors"
-                >
-                  <div className="flex flex-col items-center">
-                    <div className="p-2 rounded-full bg-primary/10 text-primary">
-                      <item.icon className="w-5 h-5" />
-                    </div>
-                    {item.showLine && (
-                      <div className="w-px h-full bg-border mt-2" />
-                    )}
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-center justify-between">
-                      <h3 className="font-semibold text-foreground">
-                        {item.title}
-                      </h3>
-                      {/* Step 3: Responsive Date Badge */}
-                      <span className="text-[10px] sm:text-xs text-muted bg-background px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full whitespace-nowrap">
-                        {item.date}
-                      </span>
-                    </div>
-                    <p className="text-sm text-muted mt-1">
-                      {item.description}
-                    </p>
-                  </div>
-                </motion.div>
+                <ExperienceCard key={item.title} item={item} index={index} />
               ))}
             </div>
           </motion.div>

@@ -129,6 +129,28 @@ html {
   scroll-padding-top: 5rem;
 }
 
+.calendar-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) transparent;
+}
+
+.calendar-scroll::-webkit-scrollbar {
+  height: 8px;
+}
+
+.calendar-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.calendar-scroll::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 999px;
+}
+
+.calendar-scroll::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
+}
+
 html,
 body {
   -ms-overflow-style: none;
@@ -141,8 +163,4 @@ body::-webkit-scrollbar {
 }
 .no-scrollbar::-webkit-scrollbar {
   display: none;
-}
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
 }
