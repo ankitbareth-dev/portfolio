@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useTheme } from "next-themes";
 import { motion } from "framer-motion";
 import { Code2, Briefcase, FolderGit2, GitPullRequest } from "lucide-react";
@@ -63,8 +63,8 @@ export default function About() {
 
   const githubTheme = useMemo(
     () => ({
-      dark: ["#171717", "#4f46e5", "#6366f1", "#818cf8", "#a5b4fc"],
-      light: ["#ffffff", "#4f46e5", "#6366f1", "#818cf8", "#a5b4fc"],
+      dark: ["#171717", "#a5b4fc", "#818cf8", "#6366f1", "#4f46e5"],
+      light: ["#ffffff", "#a5b4fc", "#818cf8", "#6366f1", "#4f46e5"],
     }),
     [],
   );
@@ -215,9 +215,20 @@ export default function About() {
                       transformData={transformData}
                       showColorLegend={false}
                       showMonthLabels={true}
+                      showTotalCount={false}
                       fontSize={13}
                       blockSize={14}
                       blockMargin={5}
+                      renderBlock={(block, activity) =>
+                        React.cloneElement(block, {
+                          children: (
+                            <title>
+                              {activity.count} contributions on{" "}
+                              {new Date(activity.date).toDateString()}
+                            </title>
+                          ),
+                        })
+                      }
                     />
                   )
                 )}
