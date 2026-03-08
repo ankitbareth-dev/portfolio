@@ -75,7 +75,7 @@
     --color-muted: #52525b;
 
     /* Hero Background (Light) */
-    --hero-bg-gradient: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+    --hero-bg-gradient: linear-gradient(180deg, #f8fafc 0%, #f3f4f6 100%);
 
     --hero-overlay-gradient:
       linear-gradient(
@@ -91,7 +91,7 @@
         rgba(255, 255, 255, 0) 100%
       );
 
-    --tech-arc-bg: rgba(241, 245, 249, 0.95);
+    --tech-arc-bg: rgba(224, 231, 255, 0.5);
 
     --tech-glow-gradient: linear-gradient(
       to bottom,
@@ -113,9 +113,10 @@
       rgba(255, 255, 255, 0) 100%
     );
 
-    --tech-icon-border: rgba(0, 0, 0, 0.1);
-    --tech-icon-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-    --tech-icon-bg-inner: rgba(255, 255, 255, 0.9);
+    --tech-icon-border: rgba(0, 0, 0, 0.08);
+    --tech-icon-shadow:
+      0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --tech-icon-bg-inner: rgba(255, 255, 255, 0.95);
   }
 
   body {
