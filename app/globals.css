@@ -121,6 +121,11 @@
     @apply bg-background text-foreground font-body antialiased;
   }
 }
+html {
+  scroll-behavior: smooth;
+
+  scroll-padding-top: 5rem;
+}
 html,
 body {
   -ms-overflow-style: none;

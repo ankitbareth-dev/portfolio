@@ -19,6 +19,26 @@ export default function Navbar() {
     return `#${item.toLowerCase()}`;
   };
 
+  const handleNavClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    item: string,
+  ) => {
+    e.preventDefault();
+
+    if (item === "Home") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      const targetId = item.toLowerCase();
+      const element = document.getElementById(targetId);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
+
+    setActive(item);
+    setIsOpen(false);
+  };
+
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-8 py-5 md:py-6">
       {/* Left Side (Logo) */}
@@ -32,7 +52,7 @@ export default function Navbar() {
           <Link
             key={item}
             href={getHref(item)}
-            onClick={() => setActive(item)}
+            onClick={(e) => handleNavClick(e, item)}
             className={`px-5 py-1.5 rounded-full text-sm font-medium transition-all duration-300 ${
               active === item
                 ? "bg-primary text-primary-foreground shadow-lg shadow-primary/25"
@@ -136,10 +156,7 @@ export default function Navbar() {
                   <Link
                     key={item}
                     href={getHref(item)}
-                    onClick={() => {
-                      setActive(item);
-                      setIsOpen(false);
-                    }}
+                    onClick={(e) => handleNavClick(e, item)}
                     className={`text-left px-4 py-3 rounded-xl text-base font-medium transition-colors ${
                       active === item
                         ? "bg-primary/10 text-primary"
