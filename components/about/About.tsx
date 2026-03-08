@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Code2, Briefcase, FolderGit2, GitPullRequest } from "lucide-react";
 import Image from "next/image";
@@ -14,8 +14,14 @@ interface GitHubStats {
 
 export default function About() {
   const [githubData, setGithubData] = useState<GitHubStats | null>(null);
-
+  const calendarRef = useRef<HTMLDivElement>(null);
   const { resolvedTheme } = useTheme();
+
+  useEffect(() => {
+    if (calendarRef.current) {
+      calendarRef.current.scrollLeft = calendarRef.current.scrollWidth;
+    }
+  }, [githubData]);
 
   useEffect(() => {
     const fetchGitHubStats = async () => {
@@ -141,7 +147,10 @@ export default function About() {
                 </div>
 
                 {/* Contribution Graph */}
-                <div className="p-4 rounded-xl border border-border bg-surface/30 backdrop-blur-sm mt-2 overflow-x-auto">
+                <div
+                  ref={calendarRef}
+                  className="p-4 rounded-xl border border-border bg-surface/30 backdrop-blur-sm mt-2 overflow-x-auto no-scrollbar"
+                >
                   <GitHubCalendar
                     username={githubData.login}
                     theme={githubTheme}
