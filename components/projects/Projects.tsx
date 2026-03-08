@@ -1,9 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ProjectItem } from "./ProjectItem";
+import { ProjectItem } from "./ProjectsItem";
 
-import { projectsData } from "./project.config";
+import { projectsData } from "./projects.config";
 
 export default function Projects() {
   return (

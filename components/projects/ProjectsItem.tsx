@@ -1,6 +1,6 @@
 "use client";
 
-import { Project } from "./project.config";
+import { Project } from "./projects.config";
 import { motion } from "framer-motion";
 import { ExternalLink, Github } from "lucide-react";
 import Image from "next/image";
@@ -45,9 +45,6 @@ export function ProjectItem({
       <div className={`flex flex-col gap-4 ${!isEven ? "md:order-1" : ""}`}>
         {/* Title & Headline */}
         <div>
-          <span className="text-sm font-semibold text-primary uppercase tracking-wider">
-            {project.title}
-          </span>
           <h3 className="mt-1 text-2xl md:text-3xl font-bold text-foreground">
             {project.headline}
           </h3>
