@@ -76,7 +76,7 @@ export default function Contact() {
 
           {/* Secondary CTA: Email */}
           <a
-            href="mailto:ankit@example.com"
+            href="mailto:ankitbareth.dev@gmail.com"
             className="flex items-center justify-center gap-2 px-8 py-4 w-full sm:w-auto rounded-xl border border-border bg-surface text-foreground font-medium hover:bg-surface/80 transition-colors"
           >
             <Mail className="w-5 h-5" />

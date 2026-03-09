@@ -3,7 +3,13 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useTheme } from "next-themes";
 import { motion } from "framer-motion";
-import { Code2, Briefcase, FolderGit2, GitPullRequest } from "lucide-react";
+import {
+  Code2,
+  Briefcase,
+  FolderGit2,
+  GitPullRequest,
+  WifiOff,
+} from "lucide-react";
 import Image from "next/image";
 import { GitHubCalendar, type Activity } from "react-github-calendar";
 import { ExperienceCard } from "./ExperienceCard";
@@ -59,6 +65,7 @@ interface GitHubStats {
 export default function About() {
   const [githubData, setGithubData] = useState<GitHubStats | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false); // New error state
   const { resolvedTheme } = useTheme();
 
   const githubTheme = useMemo(
@@ -76,9 +83,12 @@ export default function About() {
         if (response.ok) {
           const data = await response.json();
           setGithubData(data);
+        } else {
+          throw new Error("Failed to fetch data");
         }
       } catch (error) {
         console.error("Failed to fetch GitHub stats", error);
+        setHasError(true);
       } finally {
         setIsLoading(false);
       }
@@ -161,7 +171,12 @@ export default function About() {
                   <FolderGit2 className="w-5 h-5 text-primary" />
                   <div>
                     <p className="text-xl font-bold text-foreground">
-                      {githubData ? `${githubData.public_repos}+` : "..."}
+                      {/* Fallback for Projects Count */}
+                      {isLoading
+                        ? "..."
+                        : hasError
+                          ? "--"
+                          : `${githubData?.public_repos ?? 0}+`}
                     </p>
                     <p className="text-xs text-muted">Projects</p>
                   </div>
@@ -205,6 +220,17 @@ export default function About() {
                         />
                       ))}
                     </div>
+                  </div>
+                ) : hasError ? (
+                  // Fallback UI for Error State
+                  <div className="h-[128px] flex flex-col items-center justify-center gap-2 text-muted">
+                    <WifiOff className="w-6 h-6 opacity-50" />
+                    <p className="text-sm font-medium">
+                      Unable to load GitHub stats
+                    </p>
+                    <p className="text-xs text-muted/70">
+                      Please check your connection
+                    </p>
                   </div>
                 ) : (
                   githubData && (
