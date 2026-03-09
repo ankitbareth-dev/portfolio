@@ -48,13 +48,15 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="fixed top-6 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-8 py-5 md:py-6">
-      {/* Left Side (Logo) */}
-      <Link href="/" className="text-sm font-semibold text-foreground">
+    <nav className="fixed top-9 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-8 py-2">
+      <Link
+        href="/"
+        className="text-sm font-semibold text-foreground z-[60] hidden md:block"
+      >
         {/* Logo content */}
       </Link>
 
-      {/* Center Nav Pill (Desktop Only) */}
+      {/* --- DESKTOP NAVIGATION --- */}
       <div className="absolute left-1/2 -translate-x-1/2 hidden md:flex items-center gap-1 rounded-full bg-surface/80 backdrop-blur-md border border-border px-2 py-1 shadow-lg">
         {navItems.map((item) => (
           <Link
@@ -71,7 +73,6 @@ export default function Navbar() {
           </Link>
         ))}
 
-        {/* Separator for visual distinction */}
         <div className="w-px h-4 bg-border mx-1" />
 
         <Link
@@ -81,71 +82,43 @@ export default function Navbar() {
           Blogs
         </Link>
 
-        {/* Theme Toggle  */}
         <ThemeToggle />
       </div>
 
-      <div className="flex items-center gap-3">
-        {/* Theme Toggle for Mobile Only */}
-        <div className="md:hidden">
+      {/* --- MOBILE NAVIGATION --- */}
+
+      <div className="absolute left-1/2 -translate-x-1/2 md:hidden flex flex-col items-center w-[calc(100vw-48px)] max-w-[350px]">
+        <div className="flex items-center justify-end gap-1 w-full rounded-2xl bg-surface/80 backdrop-blur-md border border-border px-2 py-1 shadow-lg z-[60]">
           <ThemeToggle />
+
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="p-2 text-foreground hover:bg-surface/80 rounded-full transition-colors"
+          >
+            {isOpen ? (
+              <IoClose className="h-5 w-5" />
+            ) : (
+              <IoMenu className="h-5 w-5" />
+            )}
+          </button>
         </div>
 
-        {/* Hamburger Menu (Mobile Only) */}
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden p-2 text-foreground hover:bg-surface/80 rounded-full transition-colors"
-        >
-          {isOpen ? (
-            <IoClose className="h-6 w-6" />
-          ) : (
-            <IoMenu className="h-6 w-6" />
-          )}
-        </button>
-      </div>
-
-      {/* Mobile Slide-in Menu (From Right) */}
-      <AnimatePresence>
-        {isOpen && (
-          <>
-            {/* Backdrop */}
+        <AnimatePresence>
+          {isOpen && (
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setIsOpen(false)}
-              className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[60]"
-            />
-
-            {/* Menu Panel */}
-            <motion.div
-              initial={{ x: "100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "100%" }}
-              transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed top-0 right-0 w-72 h-full z-[70] border-l border-border bg-surface/95 backdrop-blur-xl shadow-2xl flex flex-col"
+              initial={{ opacity: 0, y: -10, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -10, scale: 0.95 }}
+              transition={{ duration: 0.2 }}
+              className="absolute top-full mt-4 w-full bg-surface/95 backdrop-blur-xl border border-border rounded-xl shadow-2xl overflow-hidden z-[50]"
             >
-              {/* Panel Header */}
-              <div className="flex items-center justify-between p-6 border-b border-border">
-                <span className="text-sm font-bold text-muted uppercase tracking-wider">
-                  Menu
-                </span>
-                <button
-                  onClick={() => setIsOpen(false)}
-                  className="p-2 rounded-full hover:bg-background/50 text-foreground transition-colors"
-                >
-                  <IoClose className="h-6 w-6" />
-                </button>
-              </div>
-
-              {/* Nav Links */}
-              <div className="flex flex-col gap-2 p-6">
+              <div className="flex flex-col p-2 gap-1">
                 {navItems.map((item) => (
                   <Link
                     key={item}
                     href={getHref(item)}
                     onClick={(e) => handleNavClick(e, item)}
-                    className={`text-left px-4 py-3 rounded-xl text-base font-medium transition-colors ${
+                    className={`text-left px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                       active === item
                         ? "bg-primary/10 text-primary"
                         : "text-muted hover:text-foreground hover:bg-background/50"
@@ -155,21 +128,22 @@ export default function Navbar() {
                   </Link>
                 ))}
 
-                <div className="border-t border-border my-4"></div>
+                <div className="border-t border-border my-1"></div>
 
-                {/* Mobile Blogs Button */}
                 <Link
                   href="/blogs"
                   onClick={() => setIsOpen(false)}
-                  className="flex items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/25 transition-all hover:scale-105"
+                  className="text-left px-4 py-2 rounded-lg text-sm font-medium text-muted hover:text-foreground hover:bg-background/50 transition-colors"
                 >
                   Blogs
                 </Link>
               </div>
             </motion.div>
-          </>
-        )}
-      </AnimatePresence>
+          )}
+        </AnimatePresence>
+      </div>
+
+      <div className="hidden md:block w-[100px]" />
     </nav>
   );
 }
