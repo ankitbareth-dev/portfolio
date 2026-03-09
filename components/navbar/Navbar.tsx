@@ -48,13 +48,13 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-8 py-5 md:py-6">
+    <nav className="fixed top-6 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-8 py-5 md:py-6">
       {/* Left Side (Logo) */}
       <Link href="/" className="text-sm font-semibold text-foreground">
         {/* Logo content */}
       </Link>
 
-      {/* Center Nav Links (Desktop Only) */}
+      {/* Center Nav Pill (Desktop Only) */}
       <div className="absolute left-1/2 -translate-x-1/2 hidden md:flex items-center gap-1 rounded-full bg-surface/80 backdrop-blur-md border border-border px-2 py-1 shadow-lg">
         {navItems.map((item) => (
           <Link
@@ -70,18 +70,26 @@ export default function Navbar() {
             {item}
           </Link>
         ))}
-      </div>
 
-      {/* Right Side Actions */}
-      <div className="flex items-center gap-3">
+        {/* Separator for visual distinction */}
+        <div className="w-px h-4 bg-border mx-1" />
+
         <Link
           href="/blogs"
-          className="hidden sm:block px-4 py-2 rounded-full text-foreground text-sm font-medium"
+          className="px-5 py-1.5 rounded-full text-sm font-medium text-muted hover:text-foreground transition-all duration-300"
         >
           Blogs
         </Link>
 
+        {/* Theme Toggle  */}
         <ThemeToggle />
+      </div>
+
+      <div className="flex items-center gap-3">
+        {/* Theme Toggle for Mobile Only */}
+        <div className="md:hidden">
+          <ThemeToggle />
+        </div>
 
         {/* Hamburger Menu (Mobile Only) */}
         <button
