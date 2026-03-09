@@ -10,7 +10,7 @@ export default function ThemeToggle() {
   return (
     <button
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      className="relative overflow-hidden rounded-full p-2"
+      className="relative overflow-hidden rounded-full p-2 cursor-pointer"
       aria-label="Toggle theme"
     >
       <AnimatePresence mode="wait" initial={false}>

@@ -65,6 +65,7 @@
 
 @layer base {
   /* --- LIGHT MODE OVERRIDES --- */
+
   [data-theme="light"] {
     /* Navbar & Global Colors */
     --color-background: #ffffff;
@@ -91,26 +92,33 @@
         rgba(255, 255, 255, 0) 100%
       );
 
-    --tech-arc-bg: rgba(224, 231, 255, 0.5);
+    /* 1. Arc Background: Solid Off-White */
+    --tech-arc-bg: #f3f4f6;
 
+    /* 2. Glow Gradient: Soft Indigo -> Off White */
     --tech-glow-gradient: linear-gradient(
       to bottom,
-      rgba(99, 102, 241, 0.9) 0%,
-      rgba(99, 102, 241, 0) 50%
+      #a5b4fc 0%,
+      #c7d2fe 40%,
+      #f3f4f6 100%
     );
 
+    /* 3. Blend Mode: Normal (Required for light colors on light bg) */
+    --tech-glow-blend-mode: normal;
+
+    /* 4. Pillars: Solid Light Gradients */
     --tech-pillar-gradient: linear-gradient(
       0deg,
-      rgb(223, 224, 224) 0%,
-      rgba(251, 251, 251, 0.4) 100%
+      #e5e7eb 0%,
+      /* Gray 200 */ #f9fafb 100% /* Gray 50 */
     );
 
     --tech-overlay-gradient: linear-gradient(
       180deg,
-      rgba(255, 255, 255, 0.6) 0%,
+      rgba(255, 255, 255, 0.8) 0%,
       rgba(255, 255, 255, 0) 20%,
       rgba(255, 255, 255, 0) 80%,
-      rgba(255, 255, 255, 0) 100%
+      rgba(255, 255, 255, 0.9) 100%
     );
 
     --tech-icon-border: rgba(0, 0, 0, 0.08);

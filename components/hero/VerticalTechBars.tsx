@@ -131,7 +131,8 @@ export default function VerticalTechBars() {
               "radial-gradient(ellipse 75% 100% at 50% 0%, black 0%, transparent 100%)",
             filter: "blur(12px)",
             opacity: 1,
-            mixBlendMode: "screen",
+            mixBlendMode:
+              "var(--tech-glow-blend-mode, screen)" as React.CSSProperties["mixBlendMode"],
           }}
         />
       </div>

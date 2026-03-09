@@ -27,8 +27,8 @@ export default function Hero() {
               Front-End Developer, Crafting
             </span>
 
-            <span className="block mt-3 text-muted-foreground font-medium text-[clamp(1.2rem,4.5vw,1.6rem)] sm:text-[clamp(1.4rem,3.5vw,2rem)] md:text-[clamp(1.3rem,2.6vw,2.25rem)] leading-[1.35]">
-              Scalable, Modern Web Applications
+            <span className="block mt-2 text-muted-foreground font-medium text-[clamp(1.1rem,4.5vw,1.6rem)] sm:text-[clamp(1.2rem,3.5vw,2rem)] md:text-[clamp(1.2rem,2.6vw,2.25rem)] leading-[1.35]">
+              Scalable Web Applications
             </span>
           </h1>
         </div>
