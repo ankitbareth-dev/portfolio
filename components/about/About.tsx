@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
 import { motion } from "framer-motion";
 import {
@@ -11,19 +11,22 @@ import {
   WifiOff,
 } from "lucide-react";
 import Image from "next/image";
-import { GitHubCalendar, type Activity } from "react-github-calendar";
 import { ExperienceCard } from "./ExperienceCard";
 import aboutImg from "@/assets/about-image.png";
 
-const transformData = (contributions: Activity[]): Activity[] => {
-  const start = new Date("2025-11-01");
-  const end = new Date();
+// --- 1. Types & Config ---
 
-  return contributions.filter((day) => {
-    const date = new Date(day.date);
-    return date >= start && date <= end;
-  });
-};
+interface Activity {
+  date: string;
+  count: number;
+  level: 0 | 1 | 2 | 3 | 4;
+}
+
+interface GitHubStats {
+  public_repos: number;
+  login: string;
+  contributions: Activity[];
+}
 
 const EXPERIENCE_DATA = [
   {
@@ -57,24 +60,47 @@ const EXPERIENCE_DATA = [
   },
 ];
 
-interface GitHubStats {
-  public_repos: number;
-  login: string;
-}
+// --- 2. Helper Functions ---
+
+const filterContributions = (contributions: Activity[]): Activity[] => {
+  const start = new Date("2025-11-01");
+  const end = new Date();
+  return contributions.filter((day) => {
+    const date = new Date(day.date);
+    return date >= start && date <= end;
+  });
+};
+
+const groupByWeeks = (days: Activity[]): Activity[][] => {
+  const weeks: Activity[][] = [];
+  let currentWeek: Activity[] = [];
+
+  days.forEach((day) => {
+    currentWeek.push(day);
+    if (currentWeek.length === 7) {
+      weeks.push(currentWeek);
+      currentWeek = [];
+    }
+  });
+
+  if (currentWeek.length > 0) {
+    weeks.push(currentWeek);
+  }
+
+  return weeks;
+};
+
+// --- 3. Main Component ---
 
 export default function About() {
   const [githubData, setGithubData] = useState<GitHubStats | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [hasError, setHasError] = useState(false); // New error state
-  const { resolvedTheme } = useTheme();
+  const [hasError, setHasError] = useState(false);
 
-  const githubTheme = useMemo(
-    () => ({
-      dark: ["#171717", "#a5b4fc", "#818cf8", "#6366f1", "#4f46e5"],
-      light: ["#ffffff", "#a5b4fc", "#818cf8", "#6366f1", "#4f46e5"],
-    }),
-    [],
-  );
+  // State for Touch Device Support
+  const [activeDay, setActiveDay] = useState<Activity | null>(null);
+
+  const { resolvedTheme } = useTheme();
 
   useEffect(() => {
     const fetchGitHubStats = async () => {
@@ -96,6 +122,28 @@ export default function About() {
     fetchGitHubStats();
   }, []);
 
+  const getBlockColor = (level: number) => {
+    const isDark = resolvedTheme === "dark";
+    if (level === 0) return isDark ? "#171717" : "#ebedf0";
+    if (level === 1) return "#a5b4fc";
+    if (level === 2) return "#818cf8";
+    if (level === 3) return "#6366f1";
+    return "#4f46e5";
+  };
+
+  const calendarData = githubData
+    ? groupByWeeks(filterContributions(githubData.contributions || []))
+    : [];
+
+  // Helper to format date for display
+  const formatDate = (dateStr: string) => {
+    return new Date(dateStr).toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    });
+  };
+
   return (
     <section
       id="about"
@@ -108,6 +156,7 @@ export default function About() {
 
       <div className="relative z-10 mx-auto max-w-7xl px-6 md:px-8">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16">
+          {/* Image Section */}
           <motion.div
             initial={{ opacity: 0, x: -50, scale: 0.95 }}
             whileInView={{ opacity: 1, x: 0, scale: 1 }}
@@ -127,6 +176,7 @@ export default function About() {
             </div>
           </motion.div>
 
+          {/* Content Section */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -171,7 +221,6 @@ export default function About() {
                   <FolderGit2 className="w-5 h-5 text-primary" />
                   <div>
                     <p className="text-xl font-bold text-foreground">
-                      {/* Fallback for Projects Count */}
                       {isLoading
                         ? "..."
                         : hasError
@@ -190,6 +239,7 @@ export default function About() {
                 </div>
               </div>
 
+              {/* Custom Calendar Grid Container */}
               <div className="p-3 rounded-xl border border-border bg-surface/30 backdrop-blur-sm overflow-x-auto calendar-scroll">
                 {isLoading ? (
                   <div className="skeleton-calendar h-[128px] w-full flex flex-col justify-center gap-2 px-2">
@@ -222,7 +272,6 @@ export default function About() {
                     </div>
                   </div>
                 ) : hasError ? (
-                  // Fallback UI for Error State
                   <div className="h-[128px] flex flex-col items-center justify-center gap-2 text-muted">
                     <WifiOff className="w-6 h-6 opacity-50" />
                     <p className="text-sm font-medium">
@@ -233,30 +282,87 @@ export default function About() {
                     </p>
                   </div>
                 ) : (
-                  githubData && (
-                    <GitHubCalendar
-                      username={githubData.login}
-                      theme={githubTheme}
-                      colorScheme={resolvedTheme === "dark" ? "dark" : "light"}
-                      transformData={transformData}
-                      showColorLegend={false}
-                      showMonthLabels={true}
-                      showTotalCount={false}
-                      fontSize={13}
-                      blockSize={14}
-                      blockMargin={5}
-                      renderBlock={(block, activity) =>
-                        React.cloneElement(block, {
-                          children: (
-                            <title>
-                              {activity.count} contributions on{" "}
-                              {new Date(activity.date).toDateString()}
-                            </title>
-                          ),
-                        })
-                      }
-                    />
-                  )
+                  <div className="flex flex-col gap-1">
+                    {/* Month Labels Row */}
+                    <div className="flex gap-[5px] mb-1 h-4">
+                      {(() => {
+                        let lastMonth = -1;
+                        return calendarData.map((week, index) => {
+                          const firstDay = week[0];
+                          if (!firstDay) return null;
+
+                          const currentMonth = new Date(
+                            firstDay.date,
+                          ).getMonth();
+
+                          // Show label only if month changed
+                          if (currentMonth !== lastMonth) {
+                            lastMonth = currentMonth;
+                            const monthName = new Date(
+                              firstDay.date,
+                            ).toLocaleString("default", { month: "short" });
+                            return (
+                              <div
+                                key={`month-${index}`}
+                                className="text-[10px] text-muted w-[14px]"
+                              >
+                                {monthName}
+                              </div>
+                            );
+                          }
+
+                          // Empty spacer to keep alignment with blocks
+                          return (
+                            <div key={`spacer-${index}`} className="w-[14px]" />
+                          );
+                        });
+                      })()}
+                    </div>
+
+                    {/* Calendar Blocks Grid */}
+                    <div className="flex gap-[5px]">
+                      {calendarData.map((week, weekIndex) => (
+                        <div
+                          key={weekIndex}
+                          className="flex flex-col gap-[5px]"
+                        >
+                          {week.map((day) => (
+                            <div
+                              key={day.date}
+                              className="w-[14px] h-[14px] rounded-sm transition-all cursor-pointer"
+                              style={{
+                                backgroundColor: getBlockColor(day.level),
+
+                                outline:
+                                  activeDay?.date === day.date
+                                    ? "2px solid #7275fc"
+                                    : "none",
+                                outlineOffset: "1px",
+                              }}
+                              title={`${day.count} contributions on ${formatDate(day.date)}`}
+                              onClick={() => setActiveDay(day)}
+                              // Adding keyboard accessibility
+                              role="button"
+                              tabIndex={0}
+                              onKeyDown={(e) =>
+                                e.key === "Enter" && setActiveDay(day)
+                              }
+                            />
+                          ))}
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Touch/Click Info Display */}
+                    {activeDay && (
+                      <div className="mt-2 pt-2 border-t border-border/50 text-xs text-muted flex justify-between">
+                        <span>{formatDate(activeDay.date)}</span>
+                        <span className="text-foreground font-medium">
+                          {activeDay.count} contributions
+                        </span>
+                      </div>
+                    )}
+                  </div>
                 )}
               </div>
             </motion.div>
