@@ -87,7 +87,7 @@ export default function Navbar() {
 
       {/* --- MOBILE NAVIGATION --- */}
 
-      <div className="absolute left-1/2 -translate-x-1/2 md:hidden flex flex-col items-center w-[calc(100vw-48px)] max-w-[350px]">
+      <div className="absolute left-1/2 -translate-x-1/2 md:hidden flex flex-col items-center w-[calc(100vw-28px)] max-w-[768px]">
         <div className="flex items-center justify-end gap-1 w-full rounded-2xl bg-surface/80 backdrop-blur-md border border-border px-2 py-1 shadow-lg z-[60]">
           <ThemeToggle />
 
