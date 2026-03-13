@@ -66,7 +66,7 @@ export default function Contact() {
         >
           {/* Primary CTA: Download Resume */}
           <a
-            href="/resume.pdf"
+            href="/Ankit_Bareth_Resume.pdf"
             download
             className="flex items-center justify-center gap-2 px-8 py-4 w-full sm:w-auto rounded-xl bg-primary text-primary-foreground font-semibold shadow-lg shadow-primary/25 transition-all hover:scale-105"
           >
