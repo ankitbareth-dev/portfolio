@@ -17,9 +17,26 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Ankit Bareth | Front-End Developer",
+  title:
+    "Ankit Bareth | React Developer Portfolio | Next.js Frontend Developer",
   description:
-    "Front-End Developer specializing in React, TypeScript, and Next.js. I build scalable, high-performance web applications with intuitive user interfaces. View my portfolio, projects, and experience.",
+    "Ankit Bareth is a Frontend Developer specializing in React, Next.js, and TypeScript. Explore projects, portfolio, and real-world applications.",
+  keywords: [
+    "Ankit Bareth",
+    "Ankit React Developer",
+    "Frontend Developer India",
+    "Next.js Portfolio",
+    "React Developer Portfolio",
+  ],
+
+  openGraph: {
+    title: "Ankit Bareth | React Developer Portfolio",
+    description:
+      "Frontend Developer specializing in React, Next.js, and TypeScript.",
+    url: "https://portfolio-seven-phi-95.vercel.app",
+    siteName: "Ankit Portfolio",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
