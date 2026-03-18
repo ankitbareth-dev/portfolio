@@ -46,6 +46,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning data-theme="dark">
+      <head>
+        <meta
+          name="google-site-verification"
+          content="bqDBgiJNJML2nn0z7WBgk0sfApjyFqMlIL80j0UdQzY"
+        />
+      </head>
       <body
         className={`${spaceGrotesk.variable} ${dmSans.variable} antialiased`}
       >
