@@ -10,8 +10,5 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Ping ChatFlow API
-        run: curl -I https://chat-app-backend-7pqt.onrender.com
-
       - name: Ping Chronos API
         run: curl -I https://backend-for-cronos.onrender.com/health-check
