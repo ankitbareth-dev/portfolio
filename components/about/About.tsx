@@ -30,33 +30,19 @@ interface GitHubStats {
 
 const EXPERIENCE_DATA = [
   {
-    title: "React Developer (Full-Time)",
-    date: "Sept - Nov 2025",
+    title: "Frontend Developer",
+    date: "Jul 2026  - Present",
     description: (
       <>
-        Built core features for an exam management platform, including{" "}
-        <span className="text-foreground">location-based check-ins</span> and{" "}
-        <span className="text-foreground">real-time ticket creation</span> for
-        proctors.
+        Developed features for{" "}
+        <span className="text-foreground">Pet Friendly Places</span> and{" "}
+        <span className="text-foreground">BoardGlide</span>, including location
+        data extraction, pagination, city-based filtering, secure HTTP-only
+        cookie authentication, task creation, and employee time tracking.
       </>
     ),
     icon: Briefcase,
     showLine: true,
-  },
-  {
-    title: "React Intern",
-    date: "May - Aug 2025",
-    description: (
-      <>
-        Designed a{" "}
-        <span className="text-foreground">
-          fully responsive IndiaMART-style PDP
-        </span>{" "}
-        delivering excellent UX and mobile-first layouts.
-      </>
-    ),
-    icon: Code2,
-    showLine: false,
   },
 ];
 
@@ -190,22 +176,20 @@ export default function About() {
                 <span className="text-muted">Intuitive Interfaces</span>
               </h2>
             </div>
-
             <div className="space-y-4 text-muted leading-relaxed text-base md:text-lg">
               <p>
-                I’m a Front-End Developer specializing in building responsive,
-                scalable web applications. My journey began in May 2025 at{" "}
+                I’m a Frontend Developer currently working at{" "}
                 <span className="text-foreground font-medium">
-                  4devnet Pvt Ltd
+                  CV Infotech Pvt. Ltd.
                 </span>
-                , where I transitioned from an Intern to a Full-Time Developer
-                by delivering high-impact solutions.
+                , where I build responsive and scalable web applications using
+                React, TypeScript, Next.js, Redux, and modern web technologies.
               </p>
               <p>
-                I focus on bridging the gap between backend complexity and user
-                experience—whether its optimizing product pages for mobile-first
-                performance or engineering real-time logistics for exam
-                platforms.
+                I focus on building user-friendly interfaces and scalable
+                frontend solutions, with hands-on experience in secure
+                authentication, REST API integration, state management,
+                responsive design, and real-time applications.
               </p>
             </div>
 

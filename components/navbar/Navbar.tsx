@@ -6,7 +6,7 @@ import { IoMenu, IoClose } from "react-icons/io5";
 import Link from "next/link";
 import ThemeToggle from "./ThemeToggle";
 
-const navItems = ["Home", "About", "Projects", "Contact"];
+const navItems = ["Home", "About", "Contact"];
 
 const getHref = (item: string) => {
   if (item === "Home") return "/";
